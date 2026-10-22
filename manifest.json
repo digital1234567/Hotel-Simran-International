@@ -1,0 +1,29 @@
+{
+  "name": "Hotel Simran International",
+  "short_name": "Simran Hotel",
+  "description": "Quiet Luxury Rooms, Multi-Cuisine Dining, Grand Banquets & Staff CRM in Pandri, Raipur, Chhattisgarh",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0a1628",
+  "theme_color": "#1a2332",
+  "icons": [
+    {
+      "src": "images/logo.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "images/logo.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": [
+    "travel",
+    "hospitality",
+    "business"
+  ]
+}
