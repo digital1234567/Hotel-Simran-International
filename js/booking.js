@@ -227,6 +227,15 @@ class BookingManager {
         bookings.push(booking);
         this._save(bookings);
 
+        // Asynchronously sync with MongoDB Atlas Cloud
+        try {
+            fetch('/api/bookings', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(booking)
+            }).catch(function(){});
+        } catch(e) {}
+
         return booking;
     }
 

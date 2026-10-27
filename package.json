@@ -1,0 +1,24 @@
+{
+  "name": "hotel-website",
+  "version": "1.0.0",
+  "description": "",
+  "main": "preview-server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/digital1234567/Hotel-Simran-International.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/digital1234567/Hotel-Simran-International/issues"
+  },
+  "homepage": "https://github.com/digital1234567/Hotel-Simran-International#readme",
+  "dependencies": {
+    "mongodb": "^7.7.0"
+  }
+}

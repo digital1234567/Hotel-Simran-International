@@ -25,6 +25,40 @@ const server = http.createServer((req, res) => {
     const parsedUrl = new URL(req.url, `http://localhost:${PORT}`);
     let reqPath = decodeURIComponent(parsedUrl.pathname);
 
+    // API Route Dispatcher (Vercel Serverless Function Simulator)
+    if (reqPath.startsWith('/api/')) {
+      const endpoint = reqPath.replace('/api/', '').split('?')[0].replace(/\/$/, '');
+      const handlerPath = path.join(DIR, 'api', endpoint + '.js');
+      if (fs.existsSync(handlerPath)) {
+        let body = '';
+        req.on('data', chunk => { body += chunk; });
+        req.on('end', async () => {
+          try {
+            // Delete cache for hot reloading
+            delete require.cache[require.resolve(handlerPath)];
+            const handler = require(handlerPath);
+            req.body = body;
+            req.query = Object.fromEntries(parsedUrl.searchParams);
+
+            // Mock Vercel response helpers
+            res.status = function(code) { res.statusCode = code; return res; };
+            res.json = function(data) {
+              res.setHeader('Content-Type', 'application/json; charset=utf-8');
+              res.end(JSON.stringify(data));
+              return res;
+            };
+
+            await handler(req, res);
+          } catch (apiErr) {
+            console.error('API execution error:', apiErr);
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ success: false, error: apiErr.message }));
+          }
+        });
+        return;
+      }
+    }
+
     // Default clean routes
     if (reqPath === '/' || reqPath === '') {
       reqPath = '/index.html';
@@ -80,5 +114,6 @@ server.listen(PORT, () => {
   console.log(`Website:   http://localhost:${PORT}/`);
   console.log(`Admin CRM: http://localhost:${PORT}/admin.html`);
   console.log(`CRM Alias: http://localhost:${PORT}/crm`);
+  console.log(`MongoDB API: http://localhost:${PORT}/api/bookings`);
   console.log(`====================================================`);
 });

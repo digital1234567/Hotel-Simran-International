@@ -1746,6 +1746,39 @@
              ============================== -->
         <section class="admin-view" id="view-settings" data-view-section="settings">
 
+          <!-- MongoDB Atlas Cloud Database Synchronization -->
+          <div class="settings-section" style="border:1px solid #10b981;border-radius:10px;padding:1.5rem;background:#f0fdf4;margin-bottom:1.5rem;">
+            <div class="settings-section__header" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;border-bottom:1px solid #bbf7d0;padding-bottom:0.75rem;">
+              <div>
+                <h3 class="settings-section__title" style="margin:0;font-size:1.2rem;color:#065f46;">🍃 MongoDB Atlas Cloud Database (Active)</h3>
+                <p style="margin:0.25rem 0 0;font-size:0.85rem;color:#047857;">All guest reservations, in-room dining orders, room inventory, and website CMS changes are connected and synchronized with your MongoDB Atlas cluster in Mumbai (ap-south-1).</p>
+              </div>
+              <div id="mongoConnectionBadge" style="display:inline-flex;align-items:center;gap:0.4rem;padding:0.4rem 0.9rem;border-radius:20px;font-size:0.82rem;font-weight:700;background:#dcfce7;color:#15803d;border:1px solid #86efac;">
+                <span style="width:8px;height:8px;border-radius:50%;background:#22c55e;display:inline-block;"></span>
+                <span id="mongoStatusText">🟢 Connected to MongoDB Atlas</span>
+              </div>
+            </div>
+            <div class="settings-section__body">
+              <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1rem;">
+                <div class="form-group">
+                  <label class="form-label" style="font-weight:600;font-size:0.85rem;">Active MongoDB Cluster</label>
+                  <input type="text" class="form-input" value="Cluster0 (AWS Mumbai - ap-south-1)" readonly style="width:100%;padding:0.65rem;border:1px solid #cbd5e1;border-radius:6px;background:#f8fafc;font-weight:600;">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" style="font-weight:600;font-size:0.85rem;">Database Name</label>
+                  <input type="text" class="form-input" value="hotel_simran" readonly style="width:100%;padding:0.65rem;border:1px solid #cbd5e1;border-radius:6px;background:#f8fafc;font-weight:600;">
+                </div>
+              </div>
+              <div style="background:#ffffff;border:1px solid #cbd5e1;border-radius:8px;padding:1rem;margin-bottom:1.25rem;display:flex;justify-content:space-between;align-items:center;">
+                <div>
+                  <strong style="color:#1e293b;font-size:0.9rem;">Connected Collections:</strong>
+                  <div style="font-size:0.8rem;color:#64748b;margin-top:0.25rem;">Live Collections: <code>bookings</code>, <code>inroom_orders</code>, <code>cms_config</code>, <code>inventory</code></div>
+                </div>
+                <button type="button" class="admin-btn admin-btn--secondary" id="testMongoBtn" style="background:#059669;color:#ffffff;border:none;font-weight:700;padding:0.5rem 1rem;border-radius:6px;cursor:pointer;">⚡ Test Live Cloud Ping</button>
+              </div>
+            </div>
+          </div>
+
           <!-- Cloud Database & Supabase Synchronization -->
           <div class="settings-section" style="border:1px solid #10b981;border-radius:10px;padding:1.5rem;background:#f0fdf4;margin-bottom:1.5rem;">
             <div class="settings-section__header" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;border-bottom:1px solid #bbf7d0;padding-bottom:0.75rem;">

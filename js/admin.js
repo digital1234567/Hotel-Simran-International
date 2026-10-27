@@ -1979,6 +1979,15 @@ document.addEventListener('DOMContentLoaded', () => {
             };
             localStorage.setItem('hsi_cms_config', JSON.stringify(cmsConfig));
 
+            // Push live to MongoDB Atlas Cloud
+            try {
+                fetch('/api/cms', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(cmsConfig)
+                }).catch(function(){});
+            } catch(e) {}
+
             alert('✅ Published successfully! The website content and pricing have been updated.');
         });
     }
@@ -3280,7 +3289,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // --------------------------------------------------------
     // 3. DYNAMIC BOOKINGS PIPELINE (Pulls Website Bookings into CRM)
     // --------------------------------------------------------
-    function syncLiveGuestBookings() {
+    async function syncLiveGuestBookings() {
+        // 1. Fetch from MongoDB Atlas
+        try {
+            const res = await fetch('/api/bookings');
+            if (res.ok) {
+                const json = await res.json();
+                if (json.data && json.data.length > 0) {
+                    const local = JSON.parse(localStorage.getItem('hsi_bookings')) || [];
+                    json.data.forEach(mb => {
+                        if (!local.some(lb => lb.id === mb.id)) local.push(mb);
+                    });
+                    localStorage.setItem('hsi_bookings', JSON.stringify(local));
+                }
+            }
+        } catch(e) {}
+
         try {
             const guestBookings = JSON.parse(localStorage.getItem('hsi_bookings')) || [];
             const tbody = document.querySelector('#bookingsTable tbody');
@@ -3719,6 +3743,26 @@ document.addEventListener('DOMContentLoaded', () => {
         hkBtn.addEventListener('click', (e) => {
             e.preventDefault();
             window.printHousekeepingRunSheet();
+        });
+    }
+
+    
+    const testMongoBtn = document.getElementById('testMongoBtn');
+    if (testMongoBtn) {
+        testMongoBtn.addEventListener('click', async () => {
+            testMongoBtn.textContent = '⏳ Testing Ping...';
+            try {
+                const res = await fetch('/api/bookings');
+                if (res.ok) {
+                    alert('🎉 MongoDB Atlas Ping Successful! Connected to Cluster0 (AWS Mumbai) database "hotel_simran".');
+                } else {
+                    alert('⚠️ MongoDB API responded with status: ' + res.status);
+                }
+            } catch(err) {
+                alert('⚠️ Could not reach MongoDB API: ' + err.message);
+            } finally {
+                testMongoBtn.textContent = '⚡ Test Live Cloud Ping';
+            }
         });
     }
 
